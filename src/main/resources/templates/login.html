@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>校正アシスタントシステム</title>
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		  <header>
+		    <nav class="navbar navbar-light bg-light">
+		      	<a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+			  </nav>
+		  </header>
+		<div class="text-center mt-4 ml-5 col-8">
+			<h3>[[${who}]]ログイン</h3>
+			<div class="alert alert-success" th:if="${message}">[[${message}]]</div>
+			<form class="mt-4" action="" method="post" th:object="${login}">
+				<span th:errors="*{loginId}" class="error text-danger"></span>
+				<p class="mt-2">
+				 	<input class="form-control" type="text" placeholder= "ログインID" th:field="*{loginId}">
+				</p>
+				<span th:errors="*{loginPass}" class="error  text-danger"></span>
+				<p>
+				  	<input class="form-control" type="password" placeholder= "パスワード" th:field="*{loginPass}">
+				</p>
+				<input class="form-control btn btn-primary" type="submit" value="ログイン">
+			</form>
+			<br>
+			<footer class="text-left">
+				<small>©2023 H.Shinohara, under powered by training institution with Hellowork.</small>	  	
+			</footer>
+		</div>
+	</div>
+</body>
+</html> 

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<title>顧客リスト</title>
+</head>
+<body>
+	<div class="container">
+		  <header>
+		    <nav class="navbar navbar-light bg-light">
+		      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+		      <ul class="navbar-nav">
+		         <li class="nav-item">[[${adName}]]<a th:href="@{/login/logout/0}">ログアウト</a></li>
+		      </ul>
+		    </nav>
+		  </header>	
+		  <div th:if="${listId==1}">
+		  	<a th:href="@{/admin/0}" class="btn btn-outline-info">顧客リスト</a>
+		  	<a th:href="@{/admin/1}" class="btn btn-info disabled">事務担当リスト</a>
+		  	<a th:href="@{/admin/2}" class="btn btn-outline-info">作業担当リスト</a>
+		  	<a th:href="@{/admin/3}" class="btn btn-outline-info">管理者リスト</a>
+		  </div>
+		  <div th:if="${listId==2}">
+		  	<a th:href="@{/admin/0}" class="btn btn-outline-info">顧客リスト</a>
+		  	<a th:href="@{/admin/1}" class="btn btn-outline-info">事務担当リスト</a>
+		  	<a th:href="@{/admin/2}" class="btn btn-info disabled">作業担当リスト</a>
+		  	<a th:href="@{/admin/3}" class="btn btn-outline-info">管理者リスト</a>
+		  </div>
+		  <div th:if="${listId==3}">
+		  	<a th:href="@{/admin/0}" class="btn btn-outline-info">顧客リスト</a>
+		  	<a th:href="@{/admin/1}" class="btn btn-outline-info">事務担当リスト</a>
+		  	<a th:href="@{/admin/2}" class="btn btn-outline-info">作業担当リスト</a>
+		  	<a th:href="@{/admin/3}" class="btn btn-info disabled">管理者リスト</a>
+		  </div>
+		  <h1 class="my-4 h3">[[${title}]] 
+		  	<a th:href="@{/admin/websvc/{n1}/0(n1=${listId}, name, loginId)}" class="btn btn-success">新規登録</a>
+		  </h1>
+		  <div class="alert alert-success" th:if="${message}">[[${message}]]</div>  
+		  <div class="row">
+		    <div class="col-md-10">
+		      <!-- td><a th:href="@{/item/{id}(id=${List#index})}">詳細</a></td--> 
+		      <table class="table table-bordered">
+					<tr>
+					  <th>氏名</th>
+					  <th>ログインID</th>
+					</tr>
+			        <tr th:each="staff : ${stfList}">
+				       	<td>
+				       		<a th:href=
+				       			"@{/admin/show/{n1}/{n2}(n1=${listId}, n2=${staff.id}, name=${staff.name}, loginId=${staff.loginId})}">
+				      			[[${staff.name}]]
+				      		</a>
+				      	</td> 
+				        <td>[[${staff.loginId}]]</td>
+			        </tr> 	   
+			    </table>
+		  </div><!-- /.col- -->
+	  </div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

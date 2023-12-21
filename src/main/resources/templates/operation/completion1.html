@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	    </nav>
+	  </header>
+	  <div class="row">
+	    <div class="col-md-8">
+	     <form class="form" action="2" th:object="${orderSheet}" method="post" >
+	     	<input type="hidden" th:field="*{entryId}"> 	  
+	     	 <input type="hidden" th:field="${orderSheet.laborMin}">   
+			<h1 class="my-4 h3">作業完了手続き 
+				<input class="btn btn-warning" type="submit" value="作業完了">
+	     	</h1>
+	      	<h4>トータルの作業時間: [[${orderSheet.laborMin}]] 分</h4>
+	      	<p>よろしければ作業完了ボタンを押してください。</p>
+		</form>		
+		<form class="form" th:action="@{{n1}(n1=０, itemId = ${orderSheet.entryId})}" method="post" >	
+			 <input type="hidden" th:field="${orderSheet.laborMin}">   
+			<input class="btn btn-primary" type="submit" value="戻る">
+		</form>
+	    </div><!-- /.col- -->
+	  </div><!-- /.row -->	
+	</div><!-- /.container -->
+</body>
+</html>

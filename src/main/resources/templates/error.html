@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>Error</title>
+</head>
+<body>
+	<div class="container">
+	    <!-- エラー内容を表示 -->
+	    <h2 th:text="${status}"></h2>
+	     <h3 th:text="${error}"></h3>
+	    <p th:text="${message}"></p>
+	    
+	    <button class="btn btn-warning" type="button" onclick="history.back()">戻る</button>
+	    <!--form method="post" th:action="@{/admin/edit/0}">
+	    <input class="btn btn-warning" type="submit" value="編集画面に戻る">
+	    </form-->
+	</div>
+</body>
+</html>

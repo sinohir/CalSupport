@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.dao.CustomerDao">
+	 
+	 <select id="selectPartial" resultType="com.example.app.domain.CustomerInfo">
+		 SELECT id, company, section
+		  FROM customer_list 
+		 LIMIT #{offset}, #{num}
+ 	</select> 
+ 	
+ 	<select id="selectByKeyword"  parameterType="String" resultType="com.example.app.domain.CustomerInfo"> 
+		 SELECT id, company, section
+		 FROM customer_list 
+		 WHERE company 
+		 LIKE CONCAT('%',#{keyword},'%')
+ 	</select> 
+ 	
+	 <select id="selectById" resultType="com.example.app.domain.CustomerInfo">
+		 SELECT id, company, section, name, phone_ex, phone_dm, phone, zip, address, login_id
+		 FROM customer_list 
+		 WHERE id =  #{cuId}
+	 </select>
+	 <!--select id="selectLoginInfoById" resultType="com.example.app.domain.Login">
+		 SELECT id, 
+		 company AS name,
+		  login_id
+		 FROM customer_list 
+		 WHERE id =  #{cuId}
+	 </select-->
+	 <insert id="insert" parameterType="com.example.app.domain.CustomerInfo"
+	 	useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO customer_list  (company, section, name, phone_ex, phone_dm, phone, zip, address)
+		 VALUES (#{company}, #{section}, #{name}, #{phoneEx}, #{phoneDm}, #{phone}, #{zip},  #{address})
+	 </insert>
+	 
+	 <update id="update" parameterType="com.example.app.domain.CustomerInfo">
+		 UPDATE customer_list
+		 SET company = #{company}, section = #{section}, name = #{name},
+		 	phone_ex=#{phoneEx}, phone_dm=#{phoneDm}, phone = #{phone}, 
+		 	zip = #{zip}, address = #{address}                                                         
+		 	WHERE id = #{id}
+	 </update>
+	 <update id="newLoginId" parameterType="com.example.app.domain.Login">
+		 UPDATE customer_list
+		 SET login_id = #{loginId}                                                         
+		 WHERE id = #{id}
+	</update>
+	<update id="newLoginPass" parameterType="com.example.app.domain.Login">
+		 UPDATE customer_list
+		 SET  login_id = #{loginId}, login_pass = #{loginPass}                                                         
+		 WHERE id = #{id}
+	</update>	
+	<select id="count" resultType="long">
+		 SELECT COUNT(*) FROM customer_list
+	</select>
+	
+	<delete id="deleteById">
+		DELETE FROM customer_list
+		WHERE id=#{id}
+	</delete>
+
+</mapper> 

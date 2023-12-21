@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.dao.OperationDao">
+	 
+	 <select id="selectDataByEntryId" parameterType="int" 
+	 		resultType="com.example.app.domain.CalData">
+	 	SELECT code, param, m_range, applied, lower, upper, display0, display1 
+		 FROM cal_data WHERE entry_id = #{entry_id} ORDER BY cal_order ASC		 		 
+	 </select> 
+	 <insert id="insertListWithDataBef" parameterType="com.example.app.domain.CalData">
+		 INSERT INTO cal_data 
+		 	(entry_id, cal_order, code, param, m_range, applied, lower, upper,  display0)
+		 VALUES 
+		<foreach collection="dataList" item="cal" separator=",">
+		 	(#{entry_id}, #{cal.order}, #{cal.code}, #{cal.param}, #{cal.mRange}, 
+		 	#{cal.applied},  #{cal.lower}, #{cal.upper}, #{cal.display0})
+		</foreach>
+	 </insert>
+	 <insert id="insertListWithDataAft" parameterType="com.example.app.domain.CalData">
+		 INSERT INTO cal_data 
+		 	(entry_id, cal_order, code, param, m_range, applied, lower, upper,  display1)
+		 VALUES 
+		<foreach collection="dataList" item="cal" separator=",">
+		 	(#{entry_id}, #{cal.order}, #{cal.code}, #{cal.param}, #{cal.mRange}, 
+		 	#{cal.applied},  #{cal.lower}, #{cal.upper}, #{cal.display0})
+		</foreach>
+	 </insert>
+	 <update id="updateListWithDataAft" parameterType="com.example.app.domain.CalData">
+	 	UPDATE cal_data
+	 	SET display1 = ELT(cal_order,
+	 		<foreach collection="dataList" item="cal" separator=",">
+	 			#{cal.display0}
+	 		</foreach>) 
+	 	WHERE entry_id = #{entry_id}
+	 </update>	   	 
+
+	<insert id = "insertOpRecord" parameterType="com.example.app.domain.OperationRecord">
+		INSERT INTO op_record(entry_id, invoice_id, model, serial, op_id)
+			VALUES (#{entryId}, #{invoiceId}, #{model}, #{serial}, #{opId})
+	</insert>	
+	<select id="selectOpRecordByEntryId" resultType="com.example.app.domain.OperationRecord">
+	SELECT 	op_record.invoice_id, 
+					op_record.model, 
+					op_record.serial, 
+					op_record.date0, 
+					op_record.temp0, 
+					op_record.humid0, 
+					op_record.date1, 
+					op_record.temp1, 
+					op_record.humid1, 
+					op_record.due_date, 
+					op_record.op_note
+	FROM		op_record
+    WHERE 	op_record.entry_id=#{entryId}
+    </select>
+    <select id="selectCompletionDateByEntryId">
+    SELECT    order_sheet.completion_date AS completion_date
+    FROM     order_sheet
+    WHERE   order_sheet.entry_id=#{entryId}
+	</select>
+	
+	<update id="updateOpNote">
+	 	UPDATE op_record
+	 	SET  op_note= #{note}
+	 	WHERE entry_id = #{id}
+	 </update>	          
+	<update id="updateOpRecordByBefData">
+	 	UPDATE op_record
+	 	SET
+	 	date0=#{date0} , 
+	 	temp0= #{temp0},
+	 	humid0=#{humid0},
+	 	due_date=#{dueDate}
+	 	WHERE entry_id = #{entryId}
+	 </update>	   
+	
+	<update id="updateOpRecordByAftData">
+	 	UPDATE op_record
+	 	SET
+	 	date1=#{date1},  
+	 	temp1= #{temp1},
+	 	humid1=#{humid1},
+	 	due_date=#{dueDate}
+	 	WHERE entry_id = #{entryId}
+	 </update>	   
+</mapper>	 
+

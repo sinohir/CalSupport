@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      <ul class="navbar-nav">
+	        <li class="nav-item">[[${asName}]] [<a th:href="@{/login/logout/2}">ログアウト</a>]</li>
+	      </ul>
+	    </nav>
+	  </header>
+	  <div class="alert alert-success" th:if="${message}">[[${message}]]</div>
+	  <h1 th:if="!${orderSheet.completionDate}" class="my-4 h3">[[${orderSheet.invoiceId}]]</h1>
+	  	<form th:if= "${orderSheet.completionDate}" class="form" method="post" 
+	  			th:action="@{0/{n1}(n1=0,itemId=${itemId})}">
+	  		<h1 class="my-4 h3">[[${orderSheet.invoiceId}]]	 	
+				<input  class="btn btn-warning" type="submit" value="出荷手続き">
+			</h1>
+		</form>
+	  <div class="row">
+		    <div class="col-md-8">
+		    	<table class="table table-bordered">
+			        <tr>
+			          <th>型番</th>
+			          <td>[[${orderSheet.model}]]</td>
+			        </tr>
+			        <tr>
+			          <th>製造番号</th>
+			          <td>[[${orderSheet.serial}]]</td>
+			        </tr>
+			        <tr>
+			          <th>依頼元</th>
+			          <td>[[${orderSheet.cuCompany}]]</td>
+			        </tr>
+			        <tr>
+			          <th>依頼内容</th>
+			          <td>[[${orderSheet.demand}]]</td>
+			        </tr>
+			        <tr>
+			          <th>受付日時</th>
+			          <td>[[${#dates.format(orderSheet.receptionDate, 'M月d日（E）H時m分')}]]</td>
+			        </tr>
+			        <tr>
+			        	<th>受付担当者</th>
+			          	<td>[[${orderSheet.asName}]]</td>
+			        </tr>
+			        <th:div th:if="${orderSheet.inceptionDate}">
+				        <tr>
+				          <th>作業開始日時</th>
+				          <td>[[${#dates.format(orderSheet.inceptionDate, 'M月d日（E）H時m分')}]]</td>
+				        </tr>       
+				        <tr>   
+				        	<th>作業担当者</th>
+				          	<td>[[${orderSheet.opName}]]</td>
+				        </tr>
+				        <th:div th:if="${orderSheet.completionDate}">
+				        	<tr>
+				          		<th>作業終了日時</th>
+				          		<td>[[${#dates.format(orderSheet.completionDate, 'M月d日（E）H時m分')}]]</td>
+				        	</tr>      
+				        	 <tr>   
+				        		<th>作業時間（分）</th>
+				          		<td>[[${orderSheet.laborMin}]] 分</td>
+				          	</tr>
+				          	<tr th:if="${orderSheet.shippingDate}">
+				          		<th>出荷手続き完了日時</th>   
+				          		<td>[[${#dates.format(orderSheet.shippingDate, 'M月d日（E）H時m分')}]]</td>
+				        	</tr>
+				    	</th:div>
+				        	<tr th:if="${orderSheet.opComment}">   
+				        	<th>作業メモ</th>
+				          	<td>[[${orderSheet.opComment}]]</td>
+				        </tr>
+			        </th:div>          
+		   		</table>	
+		   		<form class="form" th:action="@{{n1}(n1=${listId}, itemId=${itemId})}" method="post">
+		   			<input type="hidden" name = "memoOrg" th:value="${memo}">
+		            <p>共有メモ：<br>
+						<textarea cols="60" rows="4" maxlength="255" name="memo">[[${memo}]]</textarea>
+					</p>
+					<p><input class="btn btn-primary" type="submit" value="OK"></p>
+		   		</form>
+			</div><!-- /.col- -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

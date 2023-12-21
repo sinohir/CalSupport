@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<title>顧客リスト</title>
+</head>
+<body>
+<div class="container">
+	<header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      <ul class="navbar-nav">
+	        <li class="nav-item"><a th:href="@{/login/logout/3}">ログアウト</a></li>
+	      </ul>
+	    </nav>
+	</header>
+	<div class="alert alert-success" th:if="${message}">
+	         [[${message}]]
+	</div>
+	<div class="col-md-10">
+	<h1 class="my-4 h3 bg-primary text-white text-center"> 登録機材リスト</h1>
+	  <div class="row">
+	      	<table class="table table-bordered">
+				<tr class="text-center">
+				<th>伝票番号</th>
+				 <th>モデル名</th>
+				 <th>製造番号</th>
+				<th>受付日</th>
+				<th>作業完了日</th>
+				</tr>
+		        <tr th:each="orderSheet : ${orderSheetList}" class="text-center">
+			       	<td>
+			       		<form class="form" method="post" th:action="@{/customer/1(itemId=${orderSheet.entryId})}">
+			       			<div th:if="${orderSheet.completionDate}">
+			       				<input   class="btn btn-outline-secondary" type="submit" th:value="${orderSheet.invoiceId}">
+			       			</div>
+			       			<div th:if="!${orderSheet.completionDate}">
+			       				<input  class="btn btn-outline-secondary" disabled type="submit" th:value="${orderSheet.invoiceId}">
+			       			</div>
+			       		</form>
+			       	</td> 
+			        <td>[[${orderSheet.model}]]</td>
+			        <td>[[${orderSheet.serial}]]</td>
+			        <td>[[${#dates.format(orderSheet.receptionDate, 'yyyy年M月dd日')}]]</td>
+			        <td th:if="${orderSheet.completionDate}">[[${#dates.format(orderSheet.completionDate, 'yyyy年M月dd日')}]]</td>
+		        	<td th:if="!${orderSheet.completionDate}">作業完了までお待ちください。</td>
+		        </tr> 	   
+		    </table>	    
+		  </div><!-- /.col- -->
+  		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

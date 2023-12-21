@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<title>デモ用ポータルサイト</title>
+</head>
+<body>
+	<div class="container">
+		<header>
+		    <nav class="navbar navbar-light bg-light">
+		      <a class="navbar-brand" href="">校正サービスシステム デモ用ポータル</a>
+		      <ul class="navbar-nav">
+		      </ul>
+		    </nav>
+		</header>
+		<div class="col-md-12">
+			<p>
+				 <a th:href="@{/customer/0}" type="button" class="btn btn-outline-danger w-100  mt-2">会員サイト</a> 
+			</p>
+			<p>
+				 <a th:href="@{/assistant/0}" type="button" class="btn btn-outline-primary w-100  mt-2">事務担当者サイト</a> 
+			</p>
+			<p>
+				 <a th:href="@{/operation/0}" type="button" class="btn btn-outline-info w-100  mt-2">作業担当者サイト</a> 
+			</p>
+			<p>
+				 <a th:href="@{/admin/0}" type="button" class="btn btn-outline-secondary w-100  mt-2">管理者サイト</a> 
+			</p>
+			<br>
+			<label>ログインID：guest　パスワード：pass　にてすべてのサイトをご覧いただけます。</label>
+			<br>
+			<small>©2023 H.Shinohara, under powered by training institution with Hellowork.</small>	  	
+  		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

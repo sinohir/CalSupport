@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>お知らせの追加</title>
+	<link th:href="@{/css/bootstrap.min.css}"  rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<h3 class="my-4">校正データのアップロード</h3>
+		<form action="upload/5" method="post" th:object="${uploadForm}" enctype="multipart/form-data" id="form">
+			 <p class="mt-2">校正データCSV：<input type="file" accept=".csv" name="upData"></p>
+			 <input class="btn btn-primary" type="submit">
+		</form>
+		<p class="mt-4"><a th:href="@{/caldata}">一覧に戻る</a></p>
+	</div>
+</body>
+</html> 
+ 

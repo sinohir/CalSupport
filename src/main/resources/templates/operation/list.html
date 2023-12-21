@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<title>顧客リスト</title>
+</head>
+<body>
+<div class="container">
+	<header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      <ul class="navbar-nav">
+	        <li class="nav-item">[[${opName}]] [<a th:href="@{/login/logout/1}">ログアウト</a>]</li>
+	      </ul>
+	    </nav>
+	</header>
+	<div class="alert alert-success" th:if="${message}">[[${message}]]</div>
+	<div class="col-md-10">
+		<div th:if="${listId == 0}">
+			<h1 class="my-4 h3 bg-danger text-white text-center"> 作業待ちリスト</h1>
+				<th:div class="btn btn-danger disabled">作業待ちリスト </th:div> 
+			  	<a th:href="@{/operation/1}" class="btn btn-outline-warning">作業中リスト</a>
+			  	<a th:href="@{/operation/2}" class="btn btn-outline-success">出荷待ちリスト</a>
+		</div>
+		<div th:if="${listId == 1}"> 
+			  <h1 class="my-4 h3 bg-warning text-center">作業中リスト</h1>
+			  	<a th:href="@{/operation/0}" class="btn btn-outline-danger">作業待ちリスト </a>
+			  	<th:div class="btn btn-warning disabled">作業中リスト</th:div>
+			  	<a th:href="@{/operation/2}" class="btn btn-outline-success">出荷待ちリスト</a>
+		</div>
+		<div th:if="${listId == 2}"> 
+			  <h1 class="my-4 h3 bg-success text-white text-center">出荷待ちリスト</h1>
+			  	<a th:href="@{/operation/0}" class="btn btn-outline-danger">作業待ちリスト </a>
+			  	<a th:href="@{/operation/1}" class="btn btn-outline-warning">作業中リスト</a>
+			  	<th:div class="btn btn-success disabled">出荷待ちリスト</th:div>
+		</div>
+	  <div class="row">
+	      	<table class="table table-bordered">
+				<tr class="text-center">
+				<th>伝票番号</th>
+				 <th>モデル名</th>
+				 <th>製造番号</th>
+				<th>受付日時</th>
+				<th>受付担当</th>
+				  <th>依頼元</th>			  
+				</tr>
+		        <tr th:each="orderSheet : ${orderSheetList}">
+			       	<td><a th:href="@{/operation/checkin/{n1}(n1=${listId}, itemId=${orderSheet.entryId})}">
+			       			[[${orderSheet.invoiceId}]]</a></td> 
+			        <td>[[${orderSheet.model}]]</td>
+			        <td>[[${orderSheet.serial}]]</td>
+			        <td>[[${#dates.format(orderSheet.receptionDate, 'M月dd日 H:mm')}]]</td>
+			        <td>[[${orderSheet.asName}]]</td>
+			        <td><a th:href="@{/operation/customer/{n1}(n1=${listId}, cuId=${orderSheet.cuId})}">
+			        		[[${orderSheet.cuCompany}]]</a></td>
+		        </tr> 	   
+		    </table>	    
+		  </div><!-- /.col- -->
+  		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.dao.LoginDao">
+	 <select id="selectAuthAdByLoginId" 
+	 	resultType="com.example.app.domain.Login">
+		 SELECT * FROM admin_list WHERE login_id = #{loginId}
+	 </select>
+	 <select id="selectAuthOpByLoginId" 
+	 	resultType="com.example.app.domain.Login">
+		 SELECT * FROM operator_list WHERE login_id = #{loginId}
+	 </select>
+	 <select id="selectAuthAsByLoginId" 
+	 	resultType="com.example.app.domain.Login">
+		 SELECT * FROM assistant_list WHERE login_id = #{loginId}
+	 </select>
+	 <select id="selectAuthCuByLoginId" 
+	 	resultType="com.example.app.domain.Login">
+		 SELECT * FROM customer_list WHERE login_id = #{loginId}
+	 </select>
+	
+	<select id="selectAssistantList" resultType="com.example.app.domain.Login">
+		 SELECT id, name, login_id FROM assistant_list
+	</select>
+	<select id="selectOperatorList" resultType="com.example.app.domain.Login">
+		 SELECT id, name, login_id FROM operator_list
+	</select>
+	<select id="selectAdminList" resultType="com.example.app.domain.Login">
+		 SELECT id, name, login_id FROM admin_list
+	</select>
+	
+	<update id="newLoginAsId" parameterType="com.example.app.domain.Login">
+		 UPDATE assistant_list
+		 SET login_id = #{loginId}                                                         
+		 WHERE id = #{id}
+	</update>
+	<update id="newLoginAsPass" parameterType="com.example.app.domain.Login">
+		 UPDATE assistant_list
+		 SET  login_id = #{loginId}, login_pass = #{loginPass}                                                         
+		 WHERE id = #{id}
+	</update>	
+	
+	<update id="newLoginOpId" parameterType="com.example.app.domain.Login">
+		 UPDATE operator_list
+		 SET login_id = #{loginId}                                                         
+		 WHERE id = #{id}
+	</update>
+	<update id="newLoginOpPass" parameterType="com.example.app.domain.Login">
+		 UPDATE operator_list
+		 SET  login_id = #{loginId}, login_pass = #{loginPass}                                                         
+		 WHERE id = #{id}
+	</update>	
+	
+	<update id="newLoginAdId" parameterType="com.example.app.domain.Login">
+		 UPDATE admin_list
+		 SET login_id = #{loginId}                                                         
+		 WHERE id = #{id}
+	</update>
+	<update id="newLoginAdPass" parameterType="com.example.app.domain.Login">
+		 UPDATE admin_list
+		 SET  login_id = #{loginId}, login_pass = #{loginPass}                                                         
+		 WHERE id = #{id}
+	</update>	
+	
+	<insert id="insertNewAsAcc" parameterType="com.example.app.domain.Login">
+		 INSERT INTO assistant_list  (name, login_id, login_pass)
+		 VALUES (#{name}, #{loginId}, #{loginPass})
+	 </insert>
+	<insert id="insertNewOpAcc" parameterType="com.example.app.domain.Login">
+		 INSERT INTO operator_list  (name, login_id, login_pass)
+		 VALUES (#{name}, #{loginId}, #{loginPass})
+	 </insert>
+	<insert id="insertNewAdAcc" parameterType="com.example.app.domain.Login">
+		 INSERT INTO admin_list  (name, login_id, login_pass)
+		 VALUES (#{name}, #{loginId}, #{loginPass})
+	 </insert>
+	
+	<delete id="deleteAsById">
+		DELETE FROM assistant_list
+		WHERE id=#{id}
+	</delete>
+	<delete id="deleteOpById">
+		DELETE FROM operator_list
+		WHERE id=#{id}
+	</delete>
+	<delete id="deleteAdById">
+		DELETE FROM admin_list
+		WHERE id=#{id}
+	</delete>
+
+</mapper>

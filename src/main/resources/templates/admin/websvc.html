@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      <ul class="navbar-nav">
+	        <li class="nav-item">[[${adName}]] [<a th:href="@{login/logout/0}">ログアウト</a>]</li>
+	      </ul>
+	    </nav>
+	  </header>
+	 <h1 class="my-4 h3"> 
+	 	<label th:if="${listId==0}">Webサービスの</label>
+	 	<label th:if="${listId==1}">事務担当者の</label>
+	 	<label th:if="${listId==2}">作業担当者の</label>
+	 	<label th:if="${listId==3}">管理者の</label>	
+	  	<label th:if="${id==0}">新規登録</label>
+	   	<label th:if="${id!=0}">登録変更</label>
+	 </h1>
+	  <br>
+	  <div class="row">
+	    <div class="col-md-12">
+	    	<form class="form" th:action="@{{n1}(n1=${loginInfo.id}, listId = ${listId}, id0=${id0})}" 
+	      		method="post" th:object="${loginInfo}" >
+	      		<table>
+	      			<tr >
+	      				<td> 氏名：</td>
+	      				<td>
+		      				<div th:if="${id==0}">
+		      					<input type="text" size="24" th:field="*{name}" maxlength="16">
+		      					<small class="error text-danger" th:errors="*{name}"></small>
+		      				</div>
+		      				<div th:if="${id!=0}">[[${loginInfo.name}]] <input type="hidden" th:field="*{name}"></div>
+	      				</td>
+	      			</tr>
+	      			<tr class="form-group">
+	      				<td>ログインID：</td>
+	      				<td>
+	      					<input type="text" size="24" th:field="*{loginId}" maxlength="16" minlength="4">
+	            			<small class="error text-danger" th:errors="*{loginId}"></small>
+	        			</td>
+	        		</tr>
+					<tr class="form-group">	
+	            		<td>パスワード：</td>
+	            		<td>
+	            			<input type="text"  size="24" th:field="*{loginPass}" maxlength="16" minlength="4"
+	            				placeholder="変更しない場合は空白のまま">         
+	        				<small class="error text-danger">[[${errMessage}]]</small>
+	        			</td>
+	        		</tr>
+	        	</table>
+	        	<br>
+	        	<!--input type="hidden"  th:field=*{name}-->
+	        	<input class="btn btn-primary" type="submit" value="登録する">
+	        	<a th:href="@{/admin/{num}(num=${listId})}" class="btn btn-danger">キャンセル</a>
+	    	</form>
+	    </div><!-- /.col- -->
+	  </div><!-- /.row -->	
+	</div><!-- /.container -->
+</body>
+</html>

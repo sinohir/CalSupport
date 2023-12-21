@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<title>顧客リスト</title>
+</head>
+<body>
+	<div class="container">
+		  <header>
+		    <nav class="navbar navbar-light bg-light">
+		      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+		      <ul class="navbar-nav">
+		         <li class="nav-item">[[${adName}]] [<a th:href="@{/login/logout/0}">ログアウト</a>]</li>
+		      </ul>
+		    </nav>
+		  </header>
+		  <a th:href="@{/admin/0}" class="btn btn-info disabled">顧客リスト</a>
+		  <a th:href="@{/admin/1}" class="btn btn-outline-info">事務担当リスト</a>
+		  <a th:href="@{/admin/2}" class="btn btn-outline-info">作業担当リスト</a>
+		  <a th:href="@{/admin/3}" class="btn btn-outline-info">管理者リスト</a>
+		  <h1 class="my-4 h3">顧客リスト 
+		  	<a th:href="@{/admin/cuEdit/0}" class="btn btn-success">新規登録</a>
+		  </h1>
+		  <div class="alert alert-success" th:if="${message}">[[${message}]]</div>
+		  <form class="form" action="" method="post">
+		  		<input type="text" size="15" name="keywd" placeholder="キーワードを入力">
+		  		<input class="btn btn-secondary btn-sm" type="submit" value="検索"> 
+		  		<small>会社名のキーワードを１文字以上入力して検索。</small>
+			</form>
+		  <div class="row">
+		    <div class="col-md-10">
+	 
+		      <!-- td><a th:href="@{/item/{id}(id=${List#index})}">詳細</a></td--> 
+		      <table class="table table-bordered">
+					<tr>
+					  <th>会社名</th>
+					  <th>部署名</th>
+					</tr>
+			        <tr th:each="customer : ${customers}">
+				       	<td><a th:href="@{/admin/cuShow/{num}(num=${customer.id})}">[[${customer.company}]]</a></td> 
+				        <td>[[${customer.section}]]</td>
+			        </tr> 	   
+			    </table>
+			    <!--2 ページ以上の場合、ページネーションを表示:start -->
+				<div th:if="${totalPages >= 2}" class="container">
+					 <ul class="pagination">
+						 <!-- 前のページへ -->
+						 <th:block th:switch="${page}">
+							 <li th:case="1" class="page-item disabled">
+							 	<a class="page-link" href="">&laquo;</a>
+							 </li>
+							 <li th:case="*" class="page-item">
+							 	<a class="page-link" th:href="@{/admin/0(page=${page - 1})}">&laquo;</a>
+							 </li>
+						 </th:block>
+						 <!-- ページ番号 -->
+						 <th:block th:each="index : ${#numbers.sequence(1, totalPages)}">
+							 <th:block th:switch="${index}">
+								 <li th:case="${page}" class="page-item active">
+								 	<a class="page-link" href="">[[${index}]]</a>
+								 </li>
+								 <li th:case="*" class="page-item">
+								 	<a class="page-link" th:href="@{/admin/0(page=${index})}">[[${index}]]</a>
+								 </li>
+							 </th:block>
+						 </th:block>
+						 <!-- 次のページへ -->
+						 <th:block th:switch="${page}">
+							 <li th:case="${totalPages}" class="page-item disabled">
+							 	<a class="page-link" href="">&raquo;</a>
+							 </li>
+							 <li th:case="*" class="page-item">
+							 	<a class="page-link" th:href="@{/admin/0(page=${page + 1})}">&raquo;</a>
+							 </li>
+						 </th:block>
+					 </ul>
+				</div>
+			<!-- 2ページ以上の場合、ページネーションを表示:end -->      
+		  </div><!-- /.col- -->
+	  </div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

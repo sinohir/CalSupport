@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.app.dao.OrderSheetDao">
+	 <select id="selectListBeforeOperation" resultType="com.example.app.domain.OrderSheet">
+		 SELECT
+		 order_sheet.entry_id, 
+		 order_sheet.cu_id,
+		 order_sheet.invoice_id,
+		 order_sheet.model, 
+		 order_sheet.serial,
+		 order_sheet.reception_date, 
+		 assistant_list.name AS as_name,
+		 customer_list.company AS cu_company
+		 FROM order_sheet
+		 JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		 JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		 WHERE order_sheet.inception_date IS NULL
+	 </select>
+	<select id="selectListUnderOperation" resultType="com.example.app.domain.OrderSheet">
+		 SELECT
+		 order_sheet.entry_id, 
+		 order_sheet.cu_id,
+		 order_sheet.invoice_id,
+		 order_sheet.model, 
+		 order_sheet.serial,
+		 order_sheet.reception_date,
+		 assistant_list.name AS as_name,
+		 customer_list.company AS cu_company
+		 FROM order_sheet
+		 JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		 JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		 WHERE order_sheet.inception_date IS NOT NULL
+		 AND order_sheet.completion_date IS NULL
+	</select>	 
+	<select id="selectListAfterOperation" resultType="com.example.app.domain.OrderSheet">
+		 SELECT
+		 order_sheet.entry_id, 
+		 order_sheet.cu_id,
+		 order_sheet.invoice_id,
+		 order_sheet.model, 
+		 order_sheet.serial,
+		 order_sheet.reception_date,
+		 assistant_list.name AS as_name,
+		 customer_list.company AS cu_company
+		 FROM order_sheet
+		 JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		 JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		 WHERE order_sheet.completion_date IS NOT NULL
+		 AND order_sheet.shipping_date IS NULL
+	</select>
+	<select id="selectListUnderOperationWithOpId" resultType="com.example.app.domain.OrderSheet">
+		 SELECT
+		 order_sheet.entry_id, 
+		 order_sheet.cu_id,
+		 order_sheet.invoice_id,
+		 order_sheet.model, 
+		 order_sheet.serial,
+		 order_sheet.reception_date,
+		 assistant_list.name AS as_name,
+		 customer_list.company AS cu_company
+		 FROM order_sheet
+		 JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		 JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		 WHERE order_sheet.inception_date IS NOT NULL
+		 AND order_sheet.completion_date IS NULL
+		 AND order_sheet.op_id=#{id} 
+	</select>	 
+	<select id="selectListAfterOperationWithOpId" resultType="com.example.app.domain.OrderSheet">
+		 SELECT
+		 order_sheet.entry_id, 
+		 order_sheet.cu_id,
+		 order_sheet.invoice_id,
+		 order_sheet.model, 
+		 order_sheet.serial,
+		 order_sheet.reception_date,
+		 assistant_list.name AS as_name,
+		 customer_list.company AS cu_company
+		 FROM order_sheet
+		 JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		 JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		 WHERE order_sheet.completion_date IS NOT NULL
+		 AND order_sheet.shipping_date IS NULL
+		 AND order_sheet.op_id=#{id} 
+	</select>
+	 <select id="selectViewById" resultType="com.example.app.domain.OrderSheet">
+		SELECT
+		order_sheet.entry_id, 
+		order_sheet.cu_id,
+		order_sheet.invoice_id,
+		order_sheet.model, 
+		order_sheet.serial,
+		order_sheet.demand,
+		order_sheet.reception_date, 
+		order_sheet.inception_date,
+		order_sheet.completion_date,
+		order_sheet.shipping_date,
+		order_sheet.labor_min,
+		order_sheet.labor_charge,
+		order_sheet.op_comment,
+		order_sheet.as_comment,
+		customer_list.company AS cu_company,
+		assistant_list.name AS as_name
+		FROM order_sheet
+		JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		WHERE entry_id=#{id} 
+	 </select>
+	 <select id="selectViewAfterInceptById" resultType="com.example.app.domain.OrderSheet">
+		SELECT
+		order_sheet.entry_id, 
+		order_sheet.cu_id,
+		order_sheet.invoice_id,
+		order_sheet.model, 
+		order_sheet.serial,
+		order_sheet.demand,
+		order_sheet.reception_date, 
+		order_sheet.inception_date,
+		order_sheet.completion_date,
+		order_sheet.shipping_date,
+		order_sheet.labor_min,
+		order_sheet.labor_charge,
+		order_sheet.op_comment,
+		order_sheet.as_comment,
+		customer_list.company AS cu_company,
+		assistant_list.name AS as_name,
+		operator_list.name AS op_name
+		FROM order_sheet
+		JOIN assistant_list ON order_sheet.as_id = assistant_list.id
+		JOIN operator_list ON order_sheet.op_id = operator_list.id
+		JOIN customer_list ON order_sheet.cu_id = customer_list.id
+		WHERE entry_id=#{id} 
+	 </select>
+	 <select id="selectListByCuId" resultType="com.example.app.domain.OrderSheet">
+	SELECT
+	order_sheet.entry_id, 
+	order_sheet.invoice_id,
+	order_sheet.model, 
+	order_sheet.serial,
+	order_sheet.reception_date, 
+	order_sheet.completion_date
+	FROM order_sheet
+	WHERE cu_id = #{cuId}
+	</select>
+	 
+	 <insert id="newSheet" parameterType="com.example.app.domain.OrderSheet">
+		 INSERT INTO order_sheet  (invoice_id, as_id, cu_id, model, serial, demand, reception_date)
+		 VALUES (#{invoiceId}, #{asId}, #{cuId}, #{model}, #{serial}, #{demand}, NOW())
+	 </insert>
+	 
+	 <update id="inception" parameterType="com.example.app.domain.OperationRecord">
+		 UPDATE order_sheet
+		 SET op_id = #{opId}, inception_date = NOW()                                                         
+		WHERE entry_id = #{entryId}
+	 </update>
+	 <update id="updateAsComment">
+	 	UPDATE order_sheet
+	 	SET  as_comment= #{comment}
+	 	WHERE entry_id = #{id}
+	 </update>	          
+	 <update id="updateOpComment">
+	 	UPDATE order_sheet
+	 	SET  op_comment= #{comment}
+	 	WHERE entry_id = #{id}
+	 </update>	           
+	 <update id="updateByOpCompletion" parameterType="com.example.app.domain.OrderSheet">
+	 	UPDATE order_sheet
+	 	SET labor_min=#{laborMin}, completion_date = NOW()
+	 	WHERE entry_id = #{entryId}
+	 </update>
+	 <update id="updateByShipping" parameterType="com.example.app.domain.OrderSheet">
+	 	UPDATE order_sheet
+	 	SET labor_charge=#{laborCharge}, shipping_date = NOW()
+	 	WHERE entry_id = #{entryId}
+	 </update>
+</mapper>

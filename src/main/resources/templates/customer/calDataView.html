@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>校正データ</title>
+	<link th:href="@{/css/bootstrap.min.css}"  rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<header>
+		    <nav class="navbar navbar-light bg-light">
+		      <a class="navbar-brand" th:href="@{/}">校正データシステム</a>
+		      <ul class="navbar-nav">
+		        <li class="nav-item"><a th:href="@{/login/logout/1}">ログアウト</a></li>
+		      </ul>
+		    </nav>
+		  </header>
+		<div class="row">
+		    <div class="col-md-12">
+		      	<h1 class="mt-4 h4">校正データ
+		      		<a th:href="@{/customer/0}" class="btn btn-outline-primary">戻る</a>
+		      	</h1>
+		    	<table class="table">
+		    		<tr class="text-center">
+						<th class="text-left">科目</th>
+					  	<th colspan=2>レンジ</th>
+					  	<th colspan=3>校正値</th>
+					  	<th colspan=2>許容値下限</th>
+					  	<th colspan=2>許容値上限</th>
+					  	<th:div  th:if="${disp0==1}">
+					  		<th colspan=2>整備前表示値</th>
+					  		<th colspan=2>整備後表示値</th>
+					  	</th:div>
+					  	<th:div  th:if="${disp0==0}">
+					  		<th colspan=2>表示値</th>
+					  	</th:div>
+					</tr>
+			       	<tr  th:each="data : ${dataList}">
+				       	<td class="text-left">[[${data.func}]]</td> 
+				        <td class="text-right pr-1">[[${data.mRange}]]</td>
+				        <td class="text-left  pl-1">[[${data.unit}]]</td>
+				        <td class="text-right pr-1">[[${data.applied}]]</td>
+				         <td class="text-left px-1">[[${data.unit}]]</td>
+				          <td class="text-left pl-0">[[${data.dParam}]]</td>
+				        <td class="text-right pr-1">[[${data.lower}]]</td>
+				         <td class="text-left pl-1">[[${data.unit}]]</td>
+				        <td class="text-right pr-1">[[${data.upper}]]</td>
+				         <td class="text-left pl-1">[[${data.unit}]]</td>
+				         <th:div  th:if="${disp0==1}">
+				         	<td class="text-right pr-1">[[${data.display0}]]</td>
+				         	<td class="text-left pl-1">[[${data.unit}]]</td>
+				         </th:div>
+				         <td class="text-right pr-1">[[${data.display1}]]</td>
+				         <td th:if="${data.display1}" class="text-left pl-1">[[${data.unit}]]</td>
+				         
+			        </tr> 	   
+	    		</table>
+		  </div><!-- /.col- -->
+  		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

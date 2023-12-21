@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	    </nav>
+	  </header>
+	  <div class="row">
+	    <div class="col-md-8">
+	    	<h1 class="my-4 h3">出荷手続き</h1>
+	     	<form class="form" th:action="@{1}" method="post" th:object="${orderSheet}" >	     
+	  	      	<p>依頼者への請求金額（税抜）を入力してください。</p>
+	            <label>￥</label>
+	            <input type="hidden" th:field="*{entryId}">
+	            <input type="text" size="4" th:field="*{laborCharge}" maxlength="7">
+				<input class="btn btn-secondary" type="submit" value="次へ">
+				<small class="error text-danger" th:errors="*{laborCharge}" ></small>	
+			</form>		
+	    	<p><br><br>
+	       		<a th:href="@{/assistant/check/2(itemId=${orderSheet.entryId})}" class="btn btn-danger">キャンセル</a>
+	    	</p>	
+	    </div><!-- /.col- -->
+	  </div><!-- /.row -->	
+	</div><!-- /.container -->
+</body>
+</html>

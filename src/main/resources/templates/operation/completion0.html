@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	    </nav>
+	  </header>
+	  <div class="row">
+	    <div class="col-md-8">
+	    	<h1 class="my-4 h3">作業完了手続き</h1>
+	     	<form class="form" action="1" th:object="${orderSheet}" method="post" >	 
+	     		<input type="hidden" th:field="*{entryId}">  
+	  	      	<p>トータルの作業時間を分単位で入力してください。</p>
+	            <input type="text" size="1" th:field="*{laborMin}" maxlength="3">
+	            <label>分　</label>
+				<input class="btn btn-secondary" type="submit" value="次へ">
+				<small class="error text-danger" th:errors="*{laborMin}" ></small>	
+			</form>		
+	    	<p><br><br>
+	       		<a th:href="@{/operation/opSheet/1(itemId=${orderSheet.entryId})}" class="btn btn-danger">キャンセル</a>
+	    	<p>	
+	    </div><!-- /.col- -->
+	  </div><!-- /.row -->	
+	</div><!-- /.container -->
+</body>
+</html>

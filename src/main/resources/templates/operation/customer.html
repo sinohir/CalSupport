@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	  <header>
+	    <nav class="navbar navbar-light bg-light">
+	      <a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      <ul class="navbar-nav">
+	        <li class="nav-item">[[${opName}]]<a th:href="@{/login/logout/1}">ログアウト</a></li>
+	      </ul>
+	    </nav>
+	  </header>
+	  <h1 class="my-4 h3">[[${customer.company}]]</h1>
+	  <div class="alert alert-success" th:if="${message}">
+         [[${message}]]
+      </div>
+	  <div class="row">
+		    <div class="col-md-8">
+		    	<table class="table table-bordered">
+			        <tr>
+			          <th>部署</th>
+			          <td>[[${customer.section}]]</td>
+			        </tr>
+			        <tr>
+			          <th>担当者</th>
+			          <td>[[${customer.name}]]</td>
+			        </tr>
+			        <tr>
+			          <th>電話</th>
+			          <td>[[${customer.phoneStr}]]</td>
+			        </tr>
+			        <tr>
+			          <th>郵便番号</th>
+			          <td>[[${customer.zipStr}]]</td>
+			        </tr>
+			        <tr>
+			        <th>住所</th>
+			          <td>[[${customer.address}]]</td>
+			        </tr>
+		   		</table>
+				<br>
+				<p>
+				<a th:href="@{/operation/{n1}(n1=${listId})}" class="btn btn-primary">リストに戻る</a>
+				</p>
+			</div><!-- /.col- -->
+		</div><!-- /.row -->
+	</div><!-- /.container -->
+</body>
+</html>

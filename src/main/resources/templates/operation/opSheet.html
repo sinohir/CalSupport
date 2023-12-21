@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+	<title>校正サービスシステム</title>
+</head>
+<body>
+	<div class="container">
+	<header>
+		<nav class="navbar navbar-light bg-light">
+	      	<a class="navbar-brand" th:href="@{/}">校正サービスシステム</a>
+	      	<ul class="navbar-nav">
+	        	<li class="nav-item">[[${opName}]] [<a th:href="@{/login/logout/1}">ログアウト</a>]</li>
+	      	</ul>
+	    	</nav>
+	  	</header>
+	  	<div class="alert alert-success" th:if="${message}">[[${message}]]</div>
+	  	<h1 th:if="${opRecord.completion}" class="my-4 h3">作業記録</h1>
+	  	<form th:if= "!${opRecord.completion}" class="form" method="post" th:action="@{0/{n1}(n1=0,itemId=${itemId})}">
+	  		<h1 class="my-4 h3">作業記録	 	
+				<input  class="btn btn-warning" type="submit" value="作業を完了する">
+			</h1>
+		</form>
+		<div class="row">
+		    <div class="col-md-10">
+		    	<table class="table table-bordered">
+			         <tr>
+			        	<th>伝票番号</th>
+			          	<td>[[${opRecord.invoiceId}]]</td>
+			        </tr>
+			        <tr>
+			        	<th>型番</th>
+			         	<td>[[${opRecord.model}]]</td>
+			        </tr>
+			        <tr>
+			          <th>製造番号</th>
+			          <td>[[${opRecord.serial}]]</td>
+			        </tr>
+			        <th:div th:if="${opRecord.date0}">
+				        <tr>
+				          	<th>整備前校正日</th>
+				         	<td> [[${#dates.format(opRecord.date0, 'M月d日 H時m分')}]]</td>
+				        </tr>
+				        <tr>
+				          <th>整備前校正室温</th>
+				          <td>[[${opRecord.temp0}]]℃</td>
+				        </tr>
+				        <tr>
+				          <th>整備前校正室湿度</th>
+				          <td>[[${opRecord.humid0}]]%</td>
+				        </tr>
+					</th:div>
+					<tr>
+						<th:div th:if= "!${opRecord.completion}">
+						<th:div th:if="!${opRecord.dueDate}">       
+						    <form th:action="@{{n1}/0(n1=${listId}, itemId=${itemId})}" method="post" 
+						    	th:object="${uploadForm}" enctype="multipart/form-data" id="form0">
+						    	<input type="hidden" name="firstCal" value = 1>
+						    	<th:tr>
+				   					<th class="mt-2">整備前データ アップロード				   						
+				   						<input type="file" accept=".csv" name="upData" required>
+				   					</th>
+						        	<td><input class="btn btn-info" type="submit" value="Upload"></td>
+					         	</th:tr>
+					         </form>
+				        </th:div>
+				        </th:div>
+				        </th:div>
+			        </tr>
+					<th:div th:if="${opRecord.date1}">
+						<tr>
+				          	<th>整備後校正日</th>
+				         	<td> [[${#dates.format(opRecord.date1, 'M月d日 H時m分')}]]</td>
+				       </tr>
+				        <tr>
+				          <th>整備後校正室温</th>
+				          <td>[[${opRecord.temp1}]]℃</td>
+				        </tr>
+				        <tr>
+				          <th>整備後校正室湿度</th>
+				          <td>[[${opRecord.humid1}]]%</td>
+				        </tr>
+				      </th:div>  			
+		   			<th:div th:if= "!${opRecord.completion}">
+			    		<form th:action="@{{n1}/1(n1=${listId}, itemId=${itemId})}" method="post" 
+			    			th:object="${uploadForm}" enctype="multipart/form-data" id="form">
+			    			<input th:if="${opRecord.dueDate}" type="hidden" name="firstCal" value = 0>
+			    			<input th:if="!${opRecord.dueDate}" type="hidden" name="firstCal" value = 1>			
+		   					<tr>
+		   						<th class="mt-2">整備後データ アップロード
+		   							<input type="file" accept=".csv" name="upData" required>
+		   						</th>
+				         		<td th:if= "!${opRecord.date1}">
+				         			<input class="btn btn-secondary" type="submit" value="Upload">
+				         		</td>
+				         		<td th:if= "${opRecord.date1}">
+				         			<input class="btn btn-outline-secondary" type="submit" value="Upload">
+				         		</td>
+			         		</tr>
+			         	</form>
+			         </th:div>
+			         </th:div>
+			         <tr th:if=${opRecord.dueDate}>
+					      <th>校正期限　
+					        	<a th:href="@{/operation/caldata/{n1}(n1=${listId}, itemId=${itemId})}" 
+					        			class="btn btn-outline-danger btn-sm">データを見る</a>
+					       </th>
+					       <td>[[${#dates.format(opRecord.dueDate, 'yyyy年M月d日')}]]</td>       
+				   	</tr>
+		   		</table>
+		   		<table th:if="${opRecord.completion}" class="table">
+		   			<tr> 
+		   					<th>作業ノート:</th>
+		   					<td>[[${opRecord.opNote}]]<td>
+		   			</tr>
+		   		</table>	
+		   		<br>
+		   		<a th:if="${opRecord.completion}" th:href="@{/operation/checkin/2(itemId=${itemId})}" 
+					        			class="btn btn-primary">戻る</a>
+			   	<form th:if="!${opRecord.completion}" class="form" method="post"
+			   		th:action="@{{n1}( n1= ${listId}, itemId=${itemId}, noteOrg = ${note})}" >			    		    		
+					<p>作業ノート</p>
+					<textarea cols="60" rows="4" maxlength="255" name="note"
+						placeholder="記録に残す作業工程をここに記入します。">[[${note}]]</textarea>
+					<p><input class="btn btn-primary" type="submit" value="OK"></p>
+		   		</form>	   		
+			</div><!-- /.col- -->
+		</div><!-- /.row -->	</div><!-- /.container -->
+</body>
+</html>
